@@ -36,10 +36,16 @@ writeJsonVersion('src-tauri/tauri.conf.json')
 
 const cargoPath = path.join(root, 'src-tauri/Cargo.toml')
 const cargo = fs.readFileSync(cargoPath, 'utf8')
-const nextCargo = cargo.replace(/^version\s*=\s*"[^"]+"/m, `version = "${version}"`)
-if (nextCargo === cargo) {
-  console.error('Failed to update version in src-tauri/Cargo.toml')
+const cargoVersionPattern = /^version\s*=\s*"([^"]+)"/m
+const cargoVersionMatch = cargo.match(cargoVersionPattern)
+if (!cargoVersionMatch) {
+  console.error('Failed to find version in src-tauri/Cargo.toml')
   process.exit(1)
 }
-fs.writeFileSync(cargoPath, nextCargo)
-console.log(`Updated src-tauri/Cargo.toml → ${version}`)
+if (cargoVersionMatch[1] === version) {
+  console.log(`src-tauri/Cargo.toml already at ${version}`)
+} else {
+  const nextCargo = cargo.replace(cargoVersionPattern, `version = "${version}"`)
+  fs.writeFileSync(cargoPath, nextCargo)
+  console.log(`Updated src-tauri/Cargo.toml → ${version}`)
+}
