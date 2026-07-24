@@ -68,7 +68,7 @@ including source-build and unsupported-architecture details.
 
 ```bash
 pnpm install
-pnpm run setup    # yt-dlp, FFmpeg, FFprobe, Deno for this OS/arch
+pnpm run setup    # yt-dlp, FFmpeg, Deno for this OS/arch
 pnpm run dev      # Tauri desktop app
 ```
 

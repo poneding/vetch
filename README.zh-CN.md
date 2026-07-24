@@ -68,7 +68,7 @@
 
 ```bash
 pnpm install
-pnpm run setup    # 下载适用于当前操作系统和架构的 yt-dlp、FFmpeg、FFprobe 与 Deno
+pnpm run setup    # 下载适用于当前操作系统和架构的 yt-dlp、FFmpeg 与 Deno
 pnpm run dev      # 启动 Tauri 桌面应用
 ```
 

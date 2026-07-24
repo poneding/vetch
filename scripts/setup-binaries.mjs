@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Download platform-matched yt-dlp, FFmpeg, FFprobe, and Deno into
+ * Download platform-matched yt-dlp, FFmpeg, and Deno into
  * src-tauri/resources/bin so Tauri can bundle them as app resources.
+ *
+ * FFprobe is intentionally not bundled: yt-dlp only needs ffmpeg for the
+ * remux / extract-audio paths Vetch uses, and shipping both roughly doubles
+ * the media-tool footprint.
  *
  * Self-contained — does not depend on any parent monorepo scripts.
  */
@@ -306,10 +310,25 @@ const downloadYtDlp = async () => {
   log('yt-dlp ready', 'success')
 }
 
+const removeLegacyFfprobe = () => {
+  for (const name of ['ffprobe', 'ffprobe.exe']) {
+    safeUnlink(path.join(binDirectory, name))
+  }
+}
+
 const downloadFfmpeg = async () => {
   const config = getAsset('ffmpeg')
-  const ffmpegDestination = path.join(binDirectory, config.ffmpegOutput)
-  const ffprobeDestination = path.join(binDirectory, config.ffprobeOutput)
+  const destination = path.join(binDirectory, config.output)
+  removeLegacyFfprobe()
+
+  // Prefer a single prebuilt ffmpeg binary to keep installer size down.
+  if (!config.extract) {
+    const assetPath = path.join(cacheDirectory, path.basename(new URL(config.url).pathname))
+    await downloadFileWithRetry(config, assetPath)
+    installBinary(assetPath, destination, 'ffmpeg')
+    log('ffmpeg ready', 'success')
+    return
+  }
 
   const archiveName = path.basename(new URL(config.url).pathname)
   const archivePath = path.join(cacheDirectory, archiveName)
@@ -323,25 +342,18 @@ const downloadFfmpeg = async () => {
     extractTarXz(archivePath, extractDir)
   }
 
-  let ffmpegSource = path.join(extractDir, config.ffmpegInner)
-  let ffprobeSource = path.join(extractDir, config.ffprobeInner)
+  const innerName = config.inner ?? path.basename(config.output)
+  let ffmpegSource = path.join(extractDir, innerName)
   if (!fileExists(ffmpegSource)) {
-    ffmpegSource = findFirstFileByName(extractDir, path.basename(config.ffmpegOutput))
-  }
-  if (!fileExists(ffprobeSource)) {
-    ffprobeSource = findFirstFileByName(extractDir, path.basename(config.ffprobeOutput))
+    ffmpegSource = findFirstFileByName(extractDir, path.basename(config.output))
   }
   if (!(ffmpegSource && fileExists(ffmpegSource))) {
     throw new Error('ffmpeg binary not found in downloaded archive')
   }
-  if (!(ffprobeSource && fileExists(ffprobeSource))) {
-    throw new Error('ffprobe binary not found in downloaded archive')
-  }
 
-  installBinary(ffmpegSource, ffmpegDestination, 'ffmpeg')
-  installBinary(ffprobeSource, ffprobeDestination, 'ffprobe')
+  installBinary(ffmpegSource, destination, 'ffmpeg')
   safeRm(extractDir)
-  log('ffmpeg and ffprobe ready', 'success')
+  log('ffmpeg ready', 'success')
 }
 
 const downloadDeno = async () => {

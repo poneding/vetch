@@ -39,7 +39,6 @@
     "resources": [
       "resources/bin/yt-dlp*",
       "resources/bin/ffmpeg*",
-      "resources/bin/ffprobe*",
       "resources/bin/deno*",
       "../THIRD_PARTY_NOTICES.md",
       "../LICENSES/*",

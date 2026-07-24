@@ -9,7 +9,7 @@ separate works and remain governed by their own licenses.
 | Component | Purpose | License | Upstream source |
 | --- | --- | --- | --- |
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp) | Media extraction and downloading | The Unlicense | <https://github.com/yt-dlp/yt-dlp> |
-| [FFmpeg / FFprobe](https://ffmpeg.org/) | Media probing, conversion, and muxing | GNU GPL v3 or later for the bundled GPL builds | <https://github.com/FFmpeg/FFmpeg> |
+| [FFmpeg](https://ffmpeg.org/) | Media conversion, remuxing, and audio extraction | GNU GPL v3 or later for the bundled GPL builds | <https://github.com/FFmpeg/FFmpeg> |
 | [Deno](https://deno.com/) | JavaScript runtime used by yt-dlp extractors | MIT | <https://github.com/denoland/deno> |
 
 Copies of these licenses are included in the [`LICENSES`](LICENSES)
@@ -19,11 +19,11 @@ the binary setup tooling in this repository.
 
 ## FFmpeg corresponding source
 
-Vetch distributions use GPL-enabled FFmpeg builds supplied by
-[yt-dlp/FFmpeg-Builds](https://github.com/yt-dlp/FFmpeg-Builds) on Windows and
-Linux and by [eko5624/mpv-mac](https://github.com/eko5624/mpv-mac) on macOS.
-The build projects, their build scripts, and the corresponding FFmpeg source
-are available without charge from the links above and from the exact upstream
+Vetch distributions ship a single GPL-enabled `ffmpeg` binary (no `ffprobe`)
+from the static builds published by
+[eugeneware/ffmpeg-static](https://github.com/eugeneware/ffmpeg-static).
+Those builds, their build scripts, and the corresponding FFmpeg source are
+available without charge from the links above and from the exact upstream
 source revision identified by each binary version.
 
 Anyone redistributing a Vetch installer must keep the applicable license texts

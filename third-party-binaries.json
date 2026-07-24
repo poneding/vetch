@@ -81,56 +81,30 @@
       }
     },
     "ffmpeg": {
+      "version": "6.0",
       "license": "GPL-3.0-or-later",
       "licenseFile": "LICENSES/FFmpeg-GPL-3.0.txt",
+      "source": "https://github.com/eugeneware/ffmpeg-static/releases/tag/b6.1.1",
       "assets": {
         "darwin-arm64": {
-          "version": "96e8f3b8cc",
-          "source": "https://github.com/FFmpeg/FFmpeg/commit/96e8f3b8cc",
-          "buildSource": "https://github.com/eko5624/mpv-mac/releases/tag/2026-01-12",
-          "url": "https://github.com/eko5624/mpv-mac/releases/download/2026-01-12/ffmpeg-arm64-96e8f3b8cc.zip",
-          "sha256": "d813412fb3b31090c12a0461f89f6eabe2f2af5a579576d8ef1bb4c919e6e9b5",
-          "extract": "zip",
-          "ffmpegInner": "ffmpeg/ffmpeg",
-          "ffprobeInner": "ffmpeg/ffprobe",
-          "ffmpegOutput": "ffmpeg",
-          "ffprobeOutput": "ffprobe"
+          "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b6.1.1/ffmpeg-darwin-arm64",
+          "sha256": "a90e3db6a3fd35f6074b013f948b1aa45b31c6375489d39e572bea3f18336584",
+          "output": "ffmpeg"
         },
         "darwin-x64": {
-          "version": "96e8f3b8cc",
-          "source": "https://github.com/FFmpeg/FFmpeg/commit/96e8f3b8cc",
-          "buildSource": "https://github.com/eko5624/mpv-mac/releases/tag/2026-01-12",
-          "url": "https://github.com/eko5624/mpv-mac/releases/download/2026-01-12/ffmpeg-x86_64-96e8f3b8cc.zip",
-          "sha256": "f9fee53f1b96ee373ecc06c3420181259942cef989cc353a7944f9bbfc148d2a",
-          "extract": "zip",
-          "ffmpegInner": "ffmpeg/ffmpeg",
-          "ffprobeInner": "ffmpeg/ffprobe",
-          "ffmpegOutput": "ffmpeg",
-          "ffprobeOutput": "ffprobe"
+          "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b6.1.1/ffmpeg-darwin-x64",
+          "sha256": "ebdddc936f61e14049a2d4b549a412b8a40deeff6540e58a9f2a2da9e6b18894",
+          "output": "ffmpeg"
         },
         "linux-x64": {
-          "version": "N-125749-ge1c1b6c558",
-          "source": "https://github.com/FFmpeg/FFmpeg/commit/e1c1b6c558",
-          "buildSource": "https://github.com/yt-dlp/FFmpeg-Builds/releases/tag/autobuild-2026-07-23-16-00",
-          "url": "https://github.com/yt-dlp/FFmpeg-Builds/releases/download/autobuild-2026-07-23-16-00/ffmpeg-N-125749-ge1c1b6c558-linux64-gpl.tar.xz",
-          "sha256": "19dee0ada63390d68f0bdae819e7b97379d6aa6bee50846abc20ac29bd55bf7c",
-          "extract": "tar",
-          "ffmpegInner": "ffmpeg-N-125749-ge1c1b6c558-linux64-gpl/bin/ffmpeg",
-          "ffprobeInner": "ffmpeg-N-125749-ge1c1b6c558-linux64-gpl/bin/ffprobe",
-          "ffmpegOutput": "ffmpeg",
-          "ffprobeOutput": "ffprobe"
+          "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b6.1.1/ffmpeg-linux-x64",
+          "sha256": "e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99",
+          "output": "ffmpeg"
         },
         "win32-x64": {
-          "version": "N-125749-ge1c1b6c558",
-          "source": "https://github.com/FFmpeg/FFmpeg/commit/e1c1b6c558",
-          "buildSource": "https://github.com/yt-dlp/FFmpeg-Builds/releases/tag/autobuild-2026-07-23-16-00",
-          "url": "https://github.com/yt-dlp/FFmpeg-Builds/releases/download/autobuild-2026-07-23-16-00/ffmpeg-N-125749-ge1c1b6c558-win64-gpl.zip",
-          "sha256": "362fa9fffe01ac8e67ea44f959153e281eff04f6957073ba295864cc6f554bd8",
-          "extract": "zip",
-          "ffmpegInner": "ffmpeg-N-125749-ge1c1b6c558-win64-gpl/bin/ffmpeg.exe",
-          "ffprobeInner": "ffmpeg-N-125749-ge1c1b6c558-win64-gpl/bin/ffprobe.exe",
-          "ffmpegOutput": "ffmpeg.exe",
-          "ffprobeOutput": "ffprobe.exe"
+          "url": "https://github.com/eugeneware/ffmpeg-static/releases/download/b6.1.1/ffmpeg-win32-x64",
+          "sha256": "04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00",
+          "output": "ffmpeg.exe"
         }
       }
     }
