@@ -1,0 +1,74 @@
+name: Bug report
+description: Report a reproducible problem in Vetch
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Vetch. Search existing issues first.
+        Remove credentials, cookies, private URLs, tokens, and sensitive local paths from logs.
+        Security vulnerabilities must use the private security advisory form instead.
+  - type: input
+    id: version
+    attributes:
+      label: Vetch version
+      placeholder: 0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating system
+      options:
+        - macOS
+        - Windows
+        - Linux
+    validations:
+      required: true
+  - type: input
+    id: architecture
+    attributes:
+      label: CPU architecture
+      placeholder: arm64 or x64
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem
+      description: What happened, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Open ...
+        2. Configure ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted logs
+      description: Paste relevant per-task or terminal logs after removing sensitive data.
+      render: shell
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, source-build details, or other useful information.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues for duplicates.
+          required: true
+        - label: I removed credentials, cookies, tokens, private URLs, and sensitive paths.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

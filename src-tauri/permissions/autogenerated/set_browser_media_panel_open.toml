@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-set-browser-media-panel-open"
+description = "Enables the set_browser_media_panel_open command without any pre-configured scope."
+commands.allow = ["set_browser_media_panel_open"]
+
+[[permission]]
+identifier = "deny-set-browser-media-panel-open"
+description = "Denies the set_browser_media_panel_open command without any pre-configured scope."
+commands.deny = ["set_browser_media_panel_open"]

@@ -1,0 +1,21 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "browser-toolbar",
+  "description": "Local browser toolbar controls and media selection",
+  "local": true,
+  "windows": ["browser"],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "allow-get-browser-state",
+    "allow-browser-navigate",
+    "allow-browser-back",
+    "allow-browser-forward",
+    "allow-browser-reload",
+    "allow-browser-focus-address",
+    "allow-set-browser-media-panel-open",
+    "allow-set-browser-media-panel-width",
+    "allow-clear-browser-media",
+    "allow-select-browser-media"
+  ]
+}

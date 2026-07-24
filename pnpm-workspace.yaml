@@ -1,0 +1,5 @@
+# Single-package project. allowBuilds is required by pnpm 11 for packages
+# that run install scripts (esbuild via vite/vitest, biome native binary).
+allowBuilds:
+  esbuild: true
+  '@biomejs/biome': true

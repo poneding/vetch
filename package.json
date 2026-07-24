@@ -1,0 +1,68 @@
+{
+  "name": "vetch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A focused, cross-platform media downloader powered by Tauri, React, and yt-dlp",
+  "license": "MIT",
+  "author": "Vetch Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poneding/vetch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/poneding/vetch/issues"
+  },
+  "homepage": "https://github.com/poneding/vetch#readme",
+  "packageManager": "pnpm@11.1.2",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=11.1.2 <12"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:vite": "vite",
+    "build": "tauri build",
+    "build:web": "tsc --noEmit && vite build",
+    "tauri": "tauri",
+    "check": "ultracite check && pnpm run check:i18n && pnpm run check:binaries && tsc --noEmit && cargo check --manifest-path src-tauri/Cargo.toml",
+    "check:binaries": "node scripts/setup-binaries.mjs --verify-manifest",
+    "check:i18n": "node scripts/check-locales.mjs",
+    "test": "vitest run",
+    "fix": "ultracite fix",
+    "icon": "tauri icon src-tauri/icons/vetch.svg",
+    "setup": "node scripts/setup-binaries.mjs"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.8.0",
+    "@tauri-apps/plugin-clipboard-manager": "^2.3.2",
+    "@tauri-apps/plugin-dialog": "^2.4.0",
+    "@tauri-apps/plugin-opener": "^2.5.4",
+    "i18next": "^25.5.3",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-i18next": "^16.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.13",
+    "@tauri-apps/cli": "^2.8.4",
+    "@testing-library/react": "^16.2.0",
+    "@types/jsdom": "^28.0.3",
+    "@types/node": "^22.19.21",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.3",
+    "jsdom": "^27.0.0",
+    "typescript": "^5.9.2",
+    "ultracite": "7.1.5",
+    "vite": "^7.1.6",
+    "vitest": "^3.0.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@biomejs/biome"
+    ]
+  }
+}

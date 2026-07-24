@@ -1,0 +1,166 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+# Never run two releases for the same ref at once, and never cancel an
+# in-progress release (cancelling mid-publish could leave a half-uploaded
+# GitHub Release).
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS arm64
+            os: macos-15
+            arch: arm64
+            artifact: macos-arm64
+          - name: Windows x64
+            os: windows-2025
+            arch: x64
+            artifact: windows-x64
+          - name: Linux x64
+            os: ubuntu-24.04
+            arch: x64
+            artifact: linux-x64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libwebkit2gtk-4.1-dev \
+            patchelf \
+            libssl-dev
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Verify runner architecture
+        shell: bash
+        run: |
+          actual="$(node -p 'process.arch')"
+          if [[ "$actual" != "${{ matrix.arch }}" ]]; then
+            echo "Expected ${{ matrix.arch }} runner, got $actual" >&2
+            exit 1
+          fi
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Prepare download tools
+        run: pnpm run setup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync release version from tag
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: node scripts/stamp-version.mjs "${GITHUB_REF_NAME}"
+
+      - name: Build Vetch
+        run: pnpm run build
+
+      - name: Collect package artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="src-tauri/target/release/bundle"
+          mkdir -p dist
+          shopt -s nullglob
+          copied=0
+          for pattern in \
+            "$bundle/dmg/"*.dmg \
+            "$bundle/msi/"*.msi \
+            "$bundle/nsis/"*.exe \
+            "$bundle/appimage/"*.AppImage \
+            "$bundle/deb/"*.deb \
+            "$bundle/rpm/"*.rpm
+          do
+            cp "$pattern" dist/
+            echo "Collected $(basename "$pattern")"
+            copied=$((copied + 1))
+          done
+          if [[ "$copied" -eq 0 ]]; then
+            echo "No package artifacts found under $bundle" >&2
+            find src-tauri/target/release/bundle -maxdepth 3 -type f || true
+            exit 1
+          fi
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vetch-${{ matrix.artifact }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 5
+
+  release:
+    name: Publish GitHub Release
+    needs: [build]
+    runs-on: ubuntu-24.04
+    # Only publish a GitHub Release for tag pushes. A manual workflow_dispatch
+    # run has no tag, so it acts as a build-only smoke test (artifacts only).
+    if: github.ref_type == 'tag'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history + tags so git-cliff can build release notes from commits.
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: vetch-*
+          merge-multiple: true
+          path: dist/
+
+      - name: List release files
+        run: find dist -type f | sort
+
+      - name: Generate changelog with git-cliff
+        uses: orhun/git-cliff-action@v4
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --latest --strip all
+        env:
+          OUTPUT: CHANGELOG.tag.md
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: ${{ steps.git-cliff.outputs.changelog }}
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

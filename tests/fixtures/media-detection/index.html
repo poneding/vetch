@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Vetch Media Detection Fixture</title>
+    <style>
+    body {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #18212f;
+      font-family: system-ui, sans-serif;
+    }
+    video {
+      width: 100%;
+      background: #111317;
+    }
+    button {
+      margin-top: 16px;
+      padding: 8px 12px;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Media Detection Fixture</h1>
+    <video
+      controls
+      muted
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+    ></video>
+    <button id="load-stream" type="button">Load simulated MSE stream</button>
+    <script>
+    'use strict'
+    document.querySelector('#load-stream').addEventListener('click', async () => {
+      const mediaSource = new MediaSource()
+      const hiddenVideo = document.createElement('video')
+      hiddenVideo.src = URL.createObjectURL(mediaSource)
+      document.body.append(hiddenVideo)
+      await fetch('/master.m3u8')
+      await fetch('/ignored-segment.m4s')
+    })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-delete-downloaded-file"
+description = "Enables the delete_downloaded_file command without any pre-configured scope."
+commands.allow = ["delete_downloaded_file"]
+
+[[permission]]
+identifier = "deny-delete-downloaded-file"
+description = "Denies the delete_downloaded_file command without any pre-configured scope."
+commands.deny = ["delete_downloaded_file"]

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-clear-browser-media"
+description = "Enables the clear_browser_media command without any pre-configured scope."
+commands.allow = ["clear_browser_media"]
+
+[[permission]]
+identifier = "deny-clear-browser-media"
+description = "Denies the clear_browser_media command without any pre-configured scope."
+commands.deny = ["clear_browser_media"]

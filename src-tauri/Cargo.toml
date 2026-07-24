@@ -1,0 +1,38 @@
+[package]
+name = "vetch"
+version = "0.1.0"
+description = "A focused cross-platform media downloader"
+authors = ["Vetch Contributors"]
+license = "MIT"
+repository = "https://github.com/poneding/vetch"
+homepage = "https://github.com/poneding/vetch"
+edition = "2021"
+
+[lib]
+name = "vetch_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = ["tray-icon", "unstable"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-clipboard-manager = "2.3.2"
+tauri-plugin-notification = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-opener = "2"
+tokio = { version = "1", features = ["fs", "io-util", "macros", "process", "sync", "time"] }
+uuid = { version = "1", features = ["v4"] }
+tempfile = "3"
+# Feature-unify with Tauri's wry so macOS can honor webview background colors
+# (disables the default WKWebView white paint before first page paint).
+wry = { version = "0.55", features = ["transparent"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3.2", features = ["NSColor"] }
+objc2-foundation = { version = "0.3.2", features = ["NSKeyValueCoding", "NSString", "NSValue"] }
+objc2-web-kit = { version = "0.3.2", features = ["block2", "objc2-app-kit"] }

@@ -1,0 +1,138 @@
+{
+  "$schema": "./third-party-binaries.schema.json",
+  "schemaVersion": 1,
+  "components": {
+    "yt-dlp": {
+      "version": "2026.07.04",
+      "license": "The Unlicense",
+      "licenseFile": "LICENSES/yt-dlp-Unlicense.txt",
+      "source": "https://github.com/yt-dlp/yt-dlp/tree/2026.07.04",
+      "assets": {
+        "darwin-arm64": {
+          "url": "https://github.com/yt-dlp/yt-dlp/releases/download/2026.07.04/yt-dlp_macos",
+          "sha256": "498bd0dae17855c599d371d68ec5bafc439a9d8640e838be25c765a9792f261b",
+          "output": "yt-dlp"
+        },
+        "darwin-x64": {
+          "url": "https://github.com/yt-dlp/yt-dlp/releases/download/2026.07.04/yt-dlp_macos",
+          "sha256": "498bd0dae17855c599d371d68ec5bafc439a9d8640e838be25c765a9792f261b",
+          "output": "yt-dlp"
+        },
+        "linux-x64": {
+          "url": "https://github.com/yt-dlp/yt-dlp/releases/download/2026.07.04/yt-dlp_linux",
+          "sha256": "6bbb3d314cde4febe36e5fa1d55462e29c974f63444e707871834f6d8cc210ae",
+          "output": "yt-dlp"
+        },
+        "win32-x64": {
+          "url": "https://github.com/yt-dlp/yt-dlp/releases/download/2026.07.04/yt-dlp.exe",
+          "sha256": "52fe3c26dcf71fbdc85b528589020bb0b8e383155cfa81b64dd447bbe35e24b8",
+          "output": "yt-dlp.exe"
+        }
+      }
+    },
+    "deno": {
+      "version": "2.9.4",
+      "license": "MIT",
+      "licenseFile": "LICENSES/Deno-MIT.txt",
+      "source": "https://github.com/denoland/deno/tree/v2.9.4",
+      "assets": {
+        "darwin-arm64": {
+          "url": "https://github.com/denoland/deno/releases/download/v2.9.4/deno-aarch64-apple-darwin.zip",
+          "sha256": "6d17647fdbf9c587a581dba205054c4ccf732dae0a196cc1e9b44c07589db412",
+          "extract": "zip",
+          "inner": "deno",
+          "output": "deno"
+        },
+        "darwin-x64": {
+          "url": "https://github.com/denoland/deno/releases/download/v2.9.4/deno-x86_64-apple-darwin.zip",
+          "sha256": "f757df6d3991e37601c69fad56c22b37c4ea77b5dcfad3636a642c2ba4c9b19f",
+          "extract": "zip",
+          "inner": "deno",
+          "output": "deno"
+        },
+        "linux-arm64": {
+          "url": "https://github.com/denoland/deno/releases/download/v2.9.4/deno-aarch64-unknown-linux-gnu.zip",
+          "sha256": "111da5c05c240cfdc4340f234a0e3539d39dbcb6755221f19dcd60bacc8be5aa",
+          "extract": "zip",
+          "inner": "deno",
+          "output": "deno"
+        },
+        "linux-x64": {
+          "url": "https://github.com/denoland/deno/releases/download/v2.9.4/deno-x86_64-unknown-linux-gnu.zip",
+          "sha256": "c24f955d9fbfe0ea5ae2b501c8e71ae76e31e4c9782390a54a284b3364fda725",
+          "extract": "zip",
+          "inner": "deno",
+          "output": "deno"
+        },
+        "win32-arm64": {
+          "url": "https://github.com/denoland/deno/releases/download/v2.9.4/deno-aarch64-pc-windows-msvc.zip",
+          "sha256": "7c8c94a603c7de90a4c41fa9b87d31bc9d3c91fb84af65dadacc8cdd97d365d4",
+          "extract": "zip",
+          "inner": "deno.exe",
+          "output": "deno.exe"
+        },
+        "win32-x64": {
+          "url": "https://github.com/denoland/deno/releases/download/v2.9.4/deno-x86_64-pc-windows-msvc.zip",
+          "sha256": "68ed08b05c56cf887e9aa509947dc3f468f7e12f47a13e5c1abd51d46d1453ef",
+          "extract": "zip",
+          "inner": "deno.exe",
+          "output": "deno.exe"
+        }
+      }
+    },
+    "ffmpeg": {
+      "license": "GPL-3.0-or-later",
+      "licenseFile": "LICENSES/FFmpeg-GPL-3.0.txt",
+      "assets": {
+        "darwin-arm64": {
+          "version": "96e8f3b8cc",
+          "source": "https://github.com/FFmpeg/FFmpeg/commit/96e8f3b8cc",
+          "buildSource": "https://github.com/eko5624/mpv-mac/releases/tag/2026-01-12",
+          "url": "https://github.com/eko5624/mpv-mac/releases/download/2026-01-12/ffmpeg-arm64-96e8f3b8cc.zip",
+          "sha256": "d813412fb3b31090c12a0461f89f6eabe2f2af5a579576d8ef1bb4c919e6e9b5",
+          "extract": "zip",
+          "ffmpegInner": "ffmpeg/ffmpeg",
+          "ffprobeInner": "ffmpeg/ffprobe",
+          "ffmpegOutput": "ffmpeg",
+          "ffprobeOutput": "ffprobe"
+        },
+        "darwin-x64": {
+          "version": "96e8f3b8cc",
+          "source": "https://github.com/FFmpeg/FFmpeg/commit/96e8f3b8cc",
+          "buildSource": "https://github.com/eko5624/mpv-mac/releases/tag/2026-01-12",
+          "url": "https://github.com/eko5624/mpv-mac/releases/download/2026-01-12/ffmpeg-x86_64-96e8f3b8cc.zip",
+          "sha256": "f9fee53f1b96ee373ecc06c3420181259942cef989cc353a7944f9bbfc148d2a",
+          "extract": "zip",
+          "ffmpegInner": "ffmpeg/ffmpeg",
+          "ffprobeInner": "ffmpeg/ffprobe",
+          "ffmpegOutput": "ffmpeg",
+          "ffprobeOutput": "ffprobe"
+        },
+        "linux-x64": {
+          "version": "N-125749-ge1c1b6c558",
+          "source": "https://github.com/FFmpeg/FFmpeg/commit/e1c1b6c558",
+          "buildSource": "https://github.com/yt-dlp/FFmpeg-Builds/releases/tag/autobuild-2026-07-23-16-00",
+          "url": "https://github.com/yt-dlp/FFmpeg-Builds/releases/download/autobuild-2026-07-23-16-00/ffmpeg-N-125749-ge1c1b6c558-linux64-gpl.tar.xz",
+          "sha256": "19dee0ada63390d68f0bdae819e7b97379d6aa6bee50846abc20ac29bd55bf7c",
+          "extract": "tar",
+          "ffmpegInner": "ffmpeg-N-125749-ge1c1b6c558-linux64-gpl/bin/ffmpeg",
+          "ffprobeInner": "ffmpeg-N-125749-ge1c1b6c558-linux64-gpl/bin/ffprobe",
+          "ffmpegOutput": "ffmpeg",
+          "ffprobeOutput": "ffprobe"
+        },
+        "win32-x64": {
+          "version": "N-125749-ge1c1b6c558",
+          "source": "https://github.com/FFmpeg/FFmpeg/commit/e1c1b6c558",
+          "buildSource": "https://github.com/yt-dlp/FFmpeg-Builds/releases/tag/autobuild-2026-07-23-16-00",
+          "url": "https://github.com/yt-dlp/FFmpeg-Builds/releases/download/autobuild-2026-07-23-16-00/ffmpeg-N-125749-ge1c1b6c558-win64-gpl.zip",
+          "sha256": "362fa9fffe01ac8e67ea44f959153e281eff04f6957073ba295864cc6f554bd8",
+          "extract": "zip",
+          "ffmpegInner": "ffmpeg-N-125749-ge1c1b6c558-win64-gpl/bin/ffmpeg.exe",
+          "ffprobeInner": "ffmpeg-N-125749-ge1c1b6c558-win64-gpl/bin/ffprobe.exe",
+          "ffmpegOutput": "ffmpeg.exe",
+          "ffprobeOutput": "ffprobe.exe"
+        }
+      }
+    }
+  }
+}

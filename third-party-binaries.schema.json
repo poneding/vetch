@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/poneding/vetch/blob/main/third-party-binaries.schema.json",
+  "title": "Vetch third-party binary lock file",
+  "type": "object",
+  "required": ["schemaVersion", "components"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "components": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["license", "licenseFile", "assets"],
+        "properties": {
+          "version": { "type": "string" },
+          "license": { "type": "string" },
+          "licenseFile": { "type": "string" },
+          "source": { "type": "string", "format": "uri" },
+          "assets": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["url", "sha256"],
+              "properties": {
+                "url": { "type": "string", "format": "uri" },
+                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

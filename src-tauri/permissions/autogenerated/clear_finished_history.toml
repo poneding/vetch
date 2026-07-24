@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-clear-finished-history"
+description = "Enables the clear_finished_history command without any pre-configured scope."
+commands.allow = ["clear_finished_history"]
+
+[[permission]]
+identifier = "deny-clear-finished-history"
+description = "Denies the clear_finished_history command without any pre-configured scope."
+commands.deny = ["clear_finished_history"]

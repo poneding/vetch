@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-rename-download-title"
+description = "Enables the rename_download_title command without any pre-configured scope."
+commands.allow = ["rename_download_title"]
+
+[[permission]]
+identifier = "deny-rename-download-title"
+description = "Denies the rename_download_title command without any pre-configured scope."
+commands.deny = ["rename_download_title"]

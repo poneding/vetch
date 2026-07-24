@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-select-browser-media"
+description = "Enables the select_browser_media command without any pre-configured scope."
+commands.allow = ["select_browser_media"]
+
+[[permission]]
+identifier = "deny-select-browser-media"
+description = "Denies the select_browser_media command without any pre-configured scope."
+commands.deny = ["select_browser_media"]

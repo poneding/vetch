@@ -1,0 +1,129 @@
+<svg height="1024" viewBox="0 0 64 64" width="1024" xmlns="http://www.w3.org/2000/svg">
+  <title>Vetch application icon</title>
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" id="glass-fill" x1="8" x2="57" y1="5" y2="61">
+      <stop stop-color="#ded0f3" stop-opacity=".94" />
+      <stop offset=".28" stop-color="#cdb3e9" stop-opacity=".86" />
+      <stop offset=".62" stop-color="#b38cde" stop-opacity=".74" />
+      <stop offset="1" stop-color="#8958c3" stop-opacity=".66" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="glass-sheen" x1="12" x2="50" y1="6" y2="58">
+      <stop stop-color="#fff" stop-opacity=".4" />
+      <stop offset=".36" stop-color="#fff" stop-opacity=".08" />
+      <stop offset=".68" stop-color="#a879dc" stop-opacity=".1" />
+      <stop offset="1" stop-color="#49197c" stop-opacity=".28" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="glass-edge" x1="9" x2="57" y1="5" y2="59">
+      <stop stop-color="#a873d8" stop-opacity=".98" />
+      <stop offset=".3" stop-color="#cab0e7" stop-opacity=".86" />
+      <stop offset=".66" stop-color="#a36fd7" stop-opacity=".64" />
+      <stop offset="1" stop-color="#57268d" stop-opacity=".78" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="arrow-light" x1="7" x2="17" y1="6" y2="11">
+      <stop stop-color="#d5b0fb" />
+      <stop offset=".36" stop-color="#ad72e8" />
+      <stop offset=".72" stop-color="#8044c4" />
+      <stop offset="1" stop-color="#572589" />
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="arrow-dark" x1="7" x2="17" y1="13" y2="18">
+      <stop stop-color="#984bd9" />
+      <stop offset=".4" stop-color="#6b27b5" />
+      <stop offset=".72" stop-color="#48138c" />
+      <stop offset="1" stop-color="#2d0453" />
+    </linearGradient>
+    <filter
+      color-interpolation-filters="sRGB"
+      height="150%"
+      id="plate-depth"
+      width="150%"
+      x="-25%"
+      y="-20%"
+    >
+      <feDropShadow dx="0" dy="1.8" flood-color="#42126f" flood-opacity=".36" stdDeviation="1.8" />
+      <feDropShadow
+        dx="-.35"
+        dy="-.45"
+        flood-color="#8555b5"
+        flood-opacity=".36"
+        stdDeviation=".55"
+      />
+    </filter>
+    <filter
+      color-interpolation-filters="sRGB"
+      height="190%"
+      id="arrow-depth"
+      width="190%"
+      x="-45%"
+      y="-35%"
+    >
+      <feDropShadow dx=".45" dy=".8" flood-color="#2f075c" flood-opacity=".44" stdDeviation=".58" />
+      <feDropShadow dx="-.18" dy="-.22" flood-color="#fff" flood-opacity=".34" stdDeviation=".22" />
+    </filter>
+  </defs>
+  <g transform="translate(4 4) scale(.875)">
+    <rect
+      fill="url(#glass-fill)"
+      filter="url(#plate-depth)"
+      height="58"
+      rx="16"
+      width="58"
+      x="3"
+      y="3"
+    />
+    <rect fill="url(#glass-sheen)" height="58" rx="16" width="58" x="3" y="3" />
+    <rect
+      fill="none"
+      height="58"
+      rx="16"
+      stroke="url(#glass-edge)"
+      stroke-width="1.25"
+      width="58"
+      x="3"
+      y="3"
+    />
+    <rect
+      fill="none"
+      height="54.6"
+      opacity=".26"
+      rx="14.4"
+      stroke="#fff"
+      stroke-width=".55"
+      width="54.6"
+      x="4.7"
+      y="4.7"
+    />
+    <g
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      transform="translate(8 8) scale(2)"
+    >
+      <path
+        d="m7 6 5 5 5-5"
+        filter="url(#arrow-depth)"
+        stroke="url(#arrow-light)"
+        stroke-width="2.65"
+      />
+      <path
+        d="m7 6 5 5 5-5"
+        opacity=".45"
+        stroke="#fff"
+        stroke-width=".42"
+        transform="translate(-.18 -.22)"
+      />
+      <path
+        d="m7 13 5 5 5-5"
+        filter="url(#arrow-depth)"
+        stroke="url(#arrow-dark)"
+        stroke-width="2.75"
+      />
+      <path
+        d="m7 13 5 5 5-5"
+        opacity=".38"
+        stroke="#ead7ff"
+        stroke-width=".42"
+        transform="translate(-.18 -.22)"
+      />
+    </g>
+  </g>
+</svg>

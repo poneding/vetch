@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link href="/src-tauri/icons/vetch.svg" rel="icon" type="image/svg+xml">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="#171419" name="theme-color">
+    <title>Vetch</title>
+    <!--
+      Theme + chrome colors must paint before the JS module graph (and styles.css)
+      so dark mode never flashes white — especially the media browser toolbar /
+      address bar. CSS media queries cover the pre-script frame; the inline
+      script then applies explicit light/dark classes from the URL theme.
+    -->
+    <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #ffffff;
+      color-scheme: light;
+    }
+
+    /* Pre-script dark baseline: match OS preference until bootstrap sets classes. */
+    @media (prefers-color-scheme: dark) {
+      html:not(.light),
+      html:not(.light) body {
+        background: #111317;
+        color-scheme: dark;
+      }
+
+      html:not(.light) input,
+      html:not(.light) textarea,
+      html:not(.light) select {
+        background-color: #111317;
+        color: #edf1f7;
+        color-scheme: dark;
+      }
+
+      html:not(.light)[data-view="browser-toolbar"],
+      html:not(.light)[data-view="browser-toolbar"] body {
+        background: #181b20;
+      }
+
+      html:not(.light)[data-view="browser-media-panel"],
+      html:not(.light)[data-view="browser-media-panel"] body {
+        background: #28232f;
+      }
+    }
+
+    html.dark,
+    html.dark body {
+      background: #111317;
+      color-scheme: dark;
+    }
+
+    html.light,
+    html.light body {
+      background: #ffffff;
+      color-scheme: light;
+    }
+
+    /* Toolbar chrome uses --surface, not page background. */
+    html.dark[data-view="browser-toolbar"],
+    html.dark[data-view="browser-toolbar"] body {
+      background: #181b20;
+    }
+
+    html.light[data-view="browser-toolbar"],
+    html.light[data-view="browser-toolbar"] body {
+      background: #f7f8fa;
+    }
+
+    html.dark[data-view="browser-media-panel"],
+    html.dark[data-view="browser-media-panel"] body {
+      background: #28232f;
+    }
+
+    html.light[data-view="browser-media-panel"],
+    html.light[data-view="browser-media-panel"] body {
+      background: #faf8ff;
+    }
+
+    /* Native inputs paint white until styles.css loads — seed address-bar colors. */
+    html.dark input,
+    html.dark textarea,
+    html.dark select {
+      background-color: #111317;
+      color: #edf1f7;
+      color-scheme: dark;
+    }
+
+    html.light input,
+    html.light textarea,
+    html.light select {
+      background-color: #ffffff;
+      color: #18212f;
+      color-scheme: light;
+    }
+
+    #root {
+      width: 100%;
+      height: 100%;
+      background: inherit;
+    }
+    </style>
+    <script>
+    'use strict'
+    ;(() => {
+      try {
+        const params = new URLSearchParams(window.location.search)
+        const theme = params.get('theme')
+        const view = params.get('view') || ''
+        const prefersDark =
+          typeof window.matchMedia === 'function' &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        const dark = theme === 'dark' || ((theme === 'system' || !theme) && prefersDark)
+        const root = document.documentElement
+        const pageBackground = dark ? '#111317' : '#ffffff'
+        const surfaceBackground = dark ? '#181b20' : '#f7f8fa'
+        const mediaBackground = dark ? '#28232f' : '#faf8ff'
+        let background = pageBackground
+        if (view === 'browser-toolbar') {
+          background = surfaceBackground
+        } else if (view === 'browser-media-panel') {
+          background = mediaBackground
+        }
+        root.classList.toggle('dark', dark)
+        root.classList.toggle('light', !dark)
+        if (view) {
+          root.setAttribute('data-view', view)
+        }
+        root.style.colorScheme = dark ? 'dark' : 'light'
+        root.style.background = background
+        // data-view on <html> is enough for CSS; body background matches chrome.
+        if (document.body) {
+          document.body.style.background = background
+          document.body.style.colorScheme = dark ? 'dark' : 'light'
+        }
+      } catch {
+        // Ignore bootstrap failures; main.tsx will still apply the theme.
+      }
+    })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/src/main.tsx" type="module"></script>
+  </body>
+</html>
