@@ -1,6 +1,6 @@
 {
   "name": "vetch",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "A focused, cross-platform media downloader powered by Tauri, React, and yt-dlp",
