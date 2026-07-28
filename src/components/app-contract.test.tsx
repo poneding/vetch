@@ -976,8 +976,7 @@ describe('Vetch application contract', () => {
           currentVersion: '0.1.0',
           latestVersion: '0.2.0',
           updateAvailable: true,
-          releaseNotes: '## Features\n- Faster downloads',
-          htmlUrl: 'https://github.com/poneding/vetch/releases/tag/v0.2.0'
+          releaseNotes: '## Features\n- Faster downloads'
         }}
       />
     )

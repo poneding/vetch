@@ -205,6 +205,5 @@ export interface AppUpdateInfo {
   latestVersion: string
   updateAvailable: boolean
   releaseNotes: string
-  htmlUrl: string
   publishedAt?: string
 }

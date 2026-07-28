@@ -90,6 +90,9 @@ jobs:
 
       - name: Build Vetch
         run: pnpm run build
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       - name: Collect package artifacts
         shell: bash
@@ -101,9 +104,14 @@ jobs:
           copied=0
           for pattern in \
             "$bundle/dmg/"*.dmg \
+            "$bundle/macos/"*.app.tar.gz \
+            "$bundle/macos/"*.app.tar.gz.sig \
             "$bundle/msi/"*.msi \
+            "$bundle/msi/"*.msi.sig \
             "$bundle/nsis/"*.exe \
+            "$bundle/nsis/"*.exe.sig \
             "$bundle/appimage/"*.AppImage \
+            "$bundle/appimage/"*.AppImage.sig \
             "$bundle/deb/"*.deb \
             "$bundle/rpm/"*.rpm
           do
@@ -156,6 +164,15 @@ jobs:
           args: --latest --strip all
         env:
           OUTPUT: CHANGELOG.tag.md
+
+      - name: Create updater manifest
+        shell: bash
+        run: |
+          node scripts/create-updater-manifest.mjs \
+            --tag "$GITHUB_REF_NAME" \
+            --notes CHANGELOG.tag.md \
+            --assets dist \
+            --output dist/latest.json
 
       - name: Publish release
         uses: softprops/action-gh-release@v2

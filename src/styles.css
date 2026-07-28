@@ -1938,7 +1938,8 @@ p {
 
 .download-dialog,
 .add-download-dialog,
-.confirmation-dialog {
+.confirmation-dialog,
+.update-dialog {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -2033,7 +2034,8 @@ p {
 /* Compact chrome shared by confirm / add / configure dialogs */
 .confirmation-dialog .modal-header,
 .add-download-dialog .modal-header,
-.download-dialog .modal-header {
+.download-dialog .modal-header,
+.update-dialog .modal-header {
   min-height: 46px;
   padding: 9px 14px;
   gap: 12px;
@@ -2049,21 +2051,24 @@ p {
 
 .confirmation-dialog .modal-header h2,
 .add-download-dialog .modal-header h2,
-.download-dialog .modal-header h2 {
+.download-dialog .modal-header h2,
+.update-dialog .modal-header h2 {
   font-size: 14px;
   line-height: 1.3;
 }
 
 .confirmation-dialog .modal-header .icon-button,
 .add-download-dialog .modal-header .icon-button,
-.download-dialog .modal-header .icon-button {
+.download-dialog .modal-header .icon-button,
+.update-dialog .modal-header .icon-button {
   width: 28px;
   height: 28px;
 }
 
 .confirmation-dialog .modal-footer,
 .add-download-dialog .modal-footer,
-.download-dialog .modal-footer {
+.download-dialog .modal-footer,
+.update-dialog .modal-footer {
   padding: 10px 14px;
   gap: 6px;
 }
@@ -2505,15 +2510,8 @@ p {
 }
 
 .update-dialog {
-  display: flex;
-  width: min(520px, calc(100vw - 32px));
-  max-height: min(640px, calc(100vh - 32px));
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--surface);
-  box-shadow: 0 24px 64px rgb(15 23 42 / 22%);
+  width: min(100%, 520px);
+  max-height: min(640px, calc(100vh - 48px));
 }
 
 .update-dialog-body {
@@ -2522,7 +2520,7 @@ p {
   flex: 1;
   flex-direction: column;
   gap: 14px;
-  padding: 4px 18px 8px;
+  padding: 16px 14px;
   overflow: hidden;
 }
 
@@ -2531,7 +2529,7 @@ p {
   align-items: flex-start;
   gap: 12px;
   padding: 12px 14px;
-  border-radius: 12px;
+  border-radius: 7px;
   background: color-mix(in srgb, var(--primary) 10%, var(--surface-strong));
 }
 
@@ -2572,7 +2570,7 @@ p {
   overflow: auto;
   padding: 12px 14px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 7px;
   background: var(--surface-strong);
   font-size: 12.5px;
   line-height: 1.55;
@@ -2611,6 +2609,33 @@ p {
   color: var(--primary);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.update-progress {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 6px;
+  color: var(--muted-strong);
+  font-size: 12px;
+}
+
+.update-progress progress {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  accent-color: var(--primary);
+}
+
+.update-error {
+  flex: 0 0 auto;
+  padding: 9px 11px;
+  border-radius: 7px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 @media (prefers-reduced-motion: reduce) {

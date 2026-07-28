@@ -253,7 +253,12 @@
     "changelog": "Changelog",
     "noNotes": "No release notes were published for this version",
     "later": "Later",
-    "openRelease": "Open download page",
+    "updateNow": "Update now",
+    "preparing": "Preparing update…",
+    "downloading": "Downloading… {{progress}}%",
+    "installing": "Installing update…",
+    "relaunching": "Restarting Vetch…",
+    "installFailed": "The update could not be installed. Please try again.",
     "upToDate": "You are already on the latest version",
     "checkFailed": "Could not check for updates"
   }
