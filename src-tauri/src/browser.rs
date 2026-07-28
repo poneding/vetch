@@ -11,8 +11,8 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use serde::{Deserialize, Serialize};
 use tauri::webview::{DownloadEvent, NewWindowResponse, PageLoadEvent, WebviewBuilder};
-use tauri::window::WindowBuilder;
 use tauri::window::Color;
+use tauri::window::WindowBuilder;
 use tauri::{
     AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, PhysicalSize, Rect, State, Theme,
     Url, Webview, WebviewUrl, Window, WindowEvent,
@@ -65,6 +65,32 @@ struct BrowserLayout {
     panel_width: f64,
     panel_height: f64,
     panel_open: bool,
+}
+
+struct BrowserWindowBuildGuard {
+    window: Window,
+    armed: bool,
+}
+
+impl BrowserWindowBuildGuard {
+    fn new(window: &Window) -> Self {
+        Self {
+            window: window.clone(),
+            armed: true,
+        }
+    }
+
+    fn disarm(&mut self) {
+        self.armed = false;
+    }
+}
+
+impl Drop for BrowserWindowBuildGuard {
+    fn drop(&mut self) {
+        if self.armed {
+            let _ = self.window.destroy();
+        }
+    }
 }
 
 /// Lay out the browser chrome inside the window content area.
@@ -1203,8 +1229,10 @@ pub fn handle_window_event(window: &Window, event: &WindowEvent) {
     }
 }
 
+/// Keep this command asynchronous: Windows WebView2 can deadlock when a synchronous
+/// IPC handler creates native windows or child webviews.
 #[tauri::command]
-pub fn open_media_browser(
+pub async fn open_media_browser(
     app: AppHandle,
     webview: Webview,
     language: String,
@@ -1256,6 +1284,7 @@ pub fn open_media_browser(
         .visible_on_all_workspaces(true)
         .build()
         .map_err(|error| error.to_string())?;
+    let mut build_guard = BrowserWindowBuildGuard::new(&window);
 
     let new_window_app = app.clone();
     let navigation_app = app.clone();
@@ -1402,6 +1431,7 @@ pub fn open_media_browser(
     );
     window.show().map_err(|error| error.to_string())?;
     window.set_focus().map_err(|error| error.to_string())?;
+    build_guard.disarm();
     start_browser_polling(app);
     Ok(())
 }
@@ -1570,9 +1600,18 @@ mod tests {
         assert_eq!(browser_theme("dark"), Some(Theme::Dark));
         assert_eq!(browser_theme("system"), None);
         // Native tokens must stay aligned with styles.css to avoid a first-frame flash.
-        assert_eq!(BROWSER_DARK_BACKGROUND, tauri::window::Color(0x11, 0x13, 0x17, 255));
-        assert_eq!(BROWSER_DARK_SURFACE, tauri::window::Color(0x18, 0x1b, 0x20, 255));
-        assert_eq!(BROWSER_LIGHT_BACKGROUND, tauri::window::Color(0xff, 0xff, 0xff, 255));
+        assert_eq!(
+            BROWSER_DARK_BACKGROUND,
+            tauri::window::Color(0x11, 0x13, 0x17, 255)
+        );
+        assert_eq!(
+            BROWSER_DARK_SURFACE,
+            tauri::window::Color(0x18, 0x1b, 0x20, 255)
+        );
+        assert_eq!(
+            BROWSER_LIGHT_BACKGROUND,
+            tauri::window::Color(0xff, 0xff, 0xff, 255)
+        );
         let dark_bootstrap = browser_theme_bootstrap_script("dark");
         assert!(dark_bootstrap.contains("#111317"));
         assert!(dark_bootstrap.contains("#181b20"));

@@ -81,8 +81,13 @@ fn build_tray(app: &AppHandle, language: &str) -> tauri::Result<()> {
     let show = MenuItem::with_id(app, TRAY_SHOW_ID, labels.show, true, None::<&str>)?;
     let settings = MenuItem::with_id(app, TRAY_SETTINGS_ID, labels.settings, true, None::<&str>)?;
     let about = MenuItem::with_id(app, TRAY_ABOUT_ID, labels.about, true, None::<&str>)?;
-    let check_updates =
-        MenuItem::with_id(app, TRAY_CHECK_UPDATES_ID, labels.check_updates, true, None::<&str>)?;
+    let check_updates = MenuItem::with_id(
+        app,
+        TRAY_CHECK_UPDATES_ID,
+        labels.check_updates,
+        true,
+        None::<&str>,
+    )?;
     let separator = PredefinedMenuItem::separator(app)?;
     let quit = MenuItem::with_id(app, TRAY_QUIT_ID, labels.quit, true, None::<&str>)?;
     let menu = Menu::with_items(
@@ -331,7 +336,13 @@ fn spawn_command(program: &str, args: &[&str]) -> Result<(), String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let builder = tauri::Builder::default();
+    #[cfg(desktop)]
+    let builder = builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+        let _ = show_main_window(app);
+    }));
+
+    builder
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
             None,

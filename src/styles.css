@@ -132,8 +132,12 @@ p {
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
-  -webkit-app-region: drag;
   user-select: none;
+}
+
+.titlebar-drag-region {
+  position: absolute;
+  inset: 0;
 }
 
 .titlebar-brand,
@@ -147,9 +151,9 @@ p {
 .titlebar-right {
   position: absolute;
   right: 0;
+  z-index: 1;
   height: 100%;
   gap: 4px;
-  -webkit-app-region: no-drag;
 }
 
 .titlebar-macos .titlebar-right {
@@ -159,6 +163,7 @@ p {
 .titlebar-brand {
   position: absolute;
   left: 50%;
+  z-index: 1;
   gap: 8px;
   transform: translateX(-50%);
   color: var(--foreground);
@@ -174,7 +179,6 @@ p {
 
 .titlebar-navigation {
   gap: 3px;
-  -webkit-app-region: no-drag;
 }
 
 .icon-button,

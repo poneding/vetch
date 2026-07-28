@@ -135,6 +135,10 @@ describe('Vetch application contract', () => {
     )
 
     expect(document.querySelector('.titlebar-brand')).toBeTruthy()
+    expect(document.querySelector('.titlebar')?.hasAttribute('data-tauri-drag-region')).toBe(false)
+    expect(
+      document.querySelector('.titlebar-drag-region')?.hasAttribute('data-tauri-drag-region')
+    ).toBe(true)
     expect(screen.queryByLabelText('Open downloads')).toBeNull()
     const settingsButton = screen.getByLabelText('Open settings')
     const aboutButton = screen.getByLabelText('Open about')
@@ -142,6 +146,9 @@ describe('Vetch application contract', () => {
     expect(aboutButton.getAttribute('aria-pressed')).toBe('false')
     const browserButton = screen.getByLabelText('Open media browser')
     expect(settingsButton.closest('.titlebar-right')).toBeTruthy()
+    expect(settingsButton.closest('.titlebar-right')?.getAttribute('data-tauri-drag-region')).toBe(
+      'false'
+    )
     expect(aboutButton.closest('.titlebar-right')).toBeTruthy()
     expect(aboutButton.querySelector('.lucide-info')).toBeTruthy()
     expect(screen.queryByLabelText('Close')).toBeNull()

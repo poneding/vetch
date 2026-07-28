@@ -53,12 +53,13 @@ export function TitleBar({
   ]
 
   return (
-    <header className={isMacOS ? 'titlebar titlebar-macos' : 'titlebar'} data-tauri-drag-region>
-      <div className="titlebar-brand" data-tauri-drag-region>
+    <header className={isMacOS ? 'titlebar titlebar-macos' : 'titlebar'}>
+      <div className="titlebar-drag-region" data-tauri-drag-region />
+      <div className="titlebar-brand">
         <AppIcon size={22} />
         <span>Vetch</span>
       </div>
-      <div className="titlebar-right">
+      <div className="titlebar-right" data-tauri-drag-region="false">
         <nav aria-label={t('titlebar.navigation')} className="titlebar-navigation">
           {rightNavigationItems.map(({ key, label, icon: Icon, onClick, badge, dot }) => (
             <button
