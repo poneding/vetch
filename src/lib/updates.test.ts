@@ -2,12 +2,14 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { checkForAppUpdate, installAppUpdate } from './updates'
 
 const updateMocks = vi.hoisted(() => ({
+  appendDiagnosticLog: vi.fn(),
   check: vi.fn(),
   isDesktopRuntime: vi.fn(() => true),
   relaunch: vi.fn()
 }))
 
 vi.mock('./backend', () => ({
+  appendDiagnosticLog: updateMocks.appendDiagnosticLog,
   isDesktopRuntime: updateMocks.isDesktopRuntime
 }))
 
@@ -21,6 +23,8 @@ vi.mock('@tauri-apps/plugin-process', () => ({
 
 describe('application updater', () => {
   beforeEach(() => {
+    updateMocks.appendDiagnosticLog.mockReset()
+    updateMocks.appendDiagnosticLog.mockResolvedValue('C:\\logs\\vetch.log')
     updateMocks.check.mockReset()
     updateMocks.isDesktopRuntime.mockReset()
     updateMocks.isDesktopRuntime.mockReturnValue(true)
@@ -62,6 +66,29 @@ describe('application updater', () => {
     expect(downloadAndInstall).toHaveBeenCalledOnce()
     expect(progress).toEqual(['downloading', 'downloading', 'installing', 'relaunching'])
     expect(updateMocks.relaunch).toHaveBeenCalledOnce()
+  })
+
+  it('preserves and logs the native updater error', async () => {
+    const downloadAndInstall = vi.fn().mockRejectedValue('signature verification failed')
+    updateMocks.check.mockResolvedValue({
+      body: '',
+      currentVersion: '0.1.0',
+      downloadAndInstall,
+      version: '0.2.0'
+    })
+
+    await checkForAppUpdate('0.1.0')
+
+    await expect(installAppUpdate(vi.fn())).rejects.toMatchObject({
+      logPath: 'C:\\logs\\vetch.log',
+      message: 'signature verification failed',
+      name: 'AppUpdateFailure'
+    })
+    expect(updateMocks.appendDiagnosticLog).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /Updater install failed: signature verification failed[\s\S]*Phase: preparing/
+      )
+    )
   })
 
   it('does not call the native updater in a browser preview', async () => {

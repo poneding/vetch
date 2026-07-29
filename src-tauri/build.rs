@@ -13,6 +13,7 @@ fn main() {
         "clear_finished_history",
         "delete_downloaded_file",
         "get_runtime_info",
+        "append_diagnostic_log",
         "open_downloaded_file",
         "reveal_downloaded_file",
         "open_media_browser",

@@ -2633,13 +2633,32 @@ p {
 }
 
 .update-error {
+  display: grid;
   flex: 0 0 auto;
+  gap: 4px;
   padding: 9px 11px;
   border-radius: 7px;
   background: var(--danger-soft);
   color: var(--danger);
   font-size: 12px;
   line-height: 1.45;
+}
+
+.update-error strong {
+  font-weight: 700;
+}
+
+.update-error span {
+  overflow-wrap: anywhere;
+}
+
+.update-error code {
+  display: block;
+  margin-top: 2px;
+  color: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  user-select: text;
 }
 
 @media (prefers-reduced-motion: reduce) {

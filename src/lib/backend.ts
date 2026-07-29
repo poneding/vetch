@@ -159,6 +159,13 @@ export const getRuntimeInfo = async (): Promise<RuntimeInfo> => {
   return await invoke<RuntimeInfo>('get_runtime_info')
 }
 
+export const appendDiagnosticLog = async (message: string): Promise<string | undefined> => {
+  if (!isDesktopRuntime()) {
+    return undefined
+  }
+  return await invoke<string>('append_diagnostic_log', { message })
+}
+
 export const selectDirectory = async (): Promise<string | null> => {
   if (!isDesktopRuntime()) {
     return null

@@ -259,6 +259,8 @@
     "installing": "Installing update…",
     "relaunching": "Restarting Vetch…",
     "installFailed": "The update could not be installed. Please try again.",
+    "failureReason": "Reason: {{reason}}",
+    "diagnosticLog": "Diagnostic log: ",
     "upToDate": "You are already on the latest version",
     "checkFailed": "Could not check for updates"
   }

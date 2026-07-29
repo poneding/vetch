@@ -28,7 +28,7 @@
     "check": "ultracite check && pnpm run check:i18n && pnpm run check:binaries && tsc --noEmit && cargo check --manifest-path src-tauri/Cargo.toml",
     "check:binaries": "node scripts/setup-binaries.mjs --verify-manifest",
     "check:i18n": "node scripts/check-locales.mjs",
-    "test": "vitest run",
+    "test": "vitest run && node --test scripts/*.test.mjs",
     "fix": "ultracite fix",
     "icon": "tauri icon src-tauri/icons/vetch.svg",
     "setup": "node scripts/setup-binaries.mjs"

@@ -47,12 +47,13 @@ const createPlatform = (assetName) => ({
 })
 
 const macAsset = findSignedAsset(['.app.tar.gz'])
-const windowsAsset = findSignedAsset(['.exe', '.msi'])
+const windowsNsisAsset = findSignedAsset(['.exe'])
+const windowsMsiAsset = findSignedAsset(['.msi'])
 const linuxAsset = findSignedAsset(['.AppImage'])
 const macPlatform = createPlatform(macAsset)
-const windowsPlatform = createPlatform(windowsAsset)
+const windowsNsisPlatform = createPlatform(windowsNsisAsset)
+const windowsMsiPlatform = createPlatform(windowsMsiAsset)
 const linuxPlatform = createPlatform(linuxAsset)
-const windowsInstaller = windowsAsset.endsWith('.exe') ? 'nsis' : 'msi'
 
 const manifest = {
   version,
@@ -63,8 +64,11 @@ const manifest = {
     'darwin-aarch64-app': macPlatform,
     'linux-x86_64': linuxPlatform,
     'linux-x86_64-appimage': linuxPlatform,
-    'windows-x86_64': windowsPlatform,
-    [`windows-x86_64-${windowsInstaller}`]: windowsPlatform
+    // Keep NSIS as the generic Windows fallback for older builds whose
+    // embedded bundle type cannot be detected.
+    'windows-x86_64': windowsNsisPlatform,
+    'windows-x86_64-nsis': windowsNsisPlatform,
+    'windows-x86_64-msi': windowsMsiPlatform
   }
 }
 

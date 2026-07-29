@@ -52,17 +52,20 @@ describe('UpdateDialog', () => {
     expect((screen.getByRole('button', { name: 'Later' }) as HTMLButtonElement).disabled).toBe(true)
   })
 
-  it('lets the user retry when installation fails', async () => {
-    updateMocks.installAppUpdate.mockRejectedValue(new Error('network error'))
+  it('shows the native error and diagnostic log when installation fails', async () => {
+    updateMocks.installAppUpdate.mockRejectedValue(
+      Object.assign(new Error('network error'), { logPath: 'C:\\logs\\vetch.log' })
+    )
 
     render(<UpdateDialog info={updateInfo} onClose={vi.fn()} onDismiss={vi.fn()} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Update now' }))
 
     await waitFor(() => {
-      expect(screen.getByRole('alert').textContent).toContain(
-        'The update could not be installed. Please try again.'
-      )
+      const alert = screen.getByRole('alert')
+      expect(alert.textContent).toContain('The update could not be installed. Please try again.')
+      expect(alert.textContent).toContain('Reason: network error')
+      expect(alert.textContent).toContain('Diagnostic log: C:\\logs\\vetch.log')
     })
     expect((screen.getByRole('button', { name: 'Update now' }) as HTMLButtonElement).disabled).toBe(
       false

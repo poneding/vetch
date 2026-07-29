@@ -23,6 +23,7 @@
     "allow-clear-finished-history",
     "allow-delete-downloaded-file",
     "allow-get-runtime-info",
+    "allow-append-diagnostic-log",
     "allow-open-downloaded-file",
     "allow-reveal-downloaded-file",
     "allow-open-media-browser",

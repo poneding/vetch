@@ -6,6 +6,7 @@ mod storage;
 
 use std::path::Path;
 use std::process::Command;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use downloader::DownloadManager;
 use models::{AppSettings, DownloadItem, MediaInfo, RuntimeInfo, StartDownloadRequest};
@@ -17,6 +18,7 @@ use tauri::tray::TrayIconBuilder;
 use tauri::{AppHandle, Emitter, Manager, State};
 use tauri_plugin_autostart::{MacosLauncher, ManagerExt};
 use tauri_plugin_opener::OpenerExt;
+use tokio::io::AsyncWriteExt;
 
 #[cfg(desktop)]
 const TRAY_SHOW_ID: &str = "tray-show";
@@ -276,6 +278,46 @@ fn get_runtime_info(app: AppHandle) -> RuntimeInfo {
 }
 
 #[tauri::command]
+async fn append_diagnostic_log(app: AppHandle, message: String) -> Result<String, String> {
+    const MESSAGE_LIMIT: usize = 16_384;
+
+    let log_dir = app
+        .path()
+        .app_log_dir()
+        .map_err(|error| format!("Failed to resolve diagnostic log directory: {error}"))?;
+    tokio::fs::create_dir_all(&log_dir)
+        .await
+        .map_err(|error| format!("Failed to create diagnostic log directory: {error}"))?;
+
+    let log_path = log_dir.join("vetch.log");
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_millis();
+    let message = message
+        .chars()
+        .filter(|character| *character != '\0')
+        .take(MESSAGE_LIMIT)
+        .collect::<String>();
+    let line = format!("[{timestamp}] {}\n", message.trim());
+
+    let mut file = tokio::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&log_path)
+        .await
+        .map_err(|error| format!("Failed to open diagnostic log: {error}"))?;
+    file.write_all(line.as_bytes())
+        .await
+        .map_err(|error| format!("Failed to write diagnostic log: {error}"))?;
+    file.flush()
+        .await
+        .map_err(|error| format!("Failed to flush diagnostic log: {error}"))?;
+
+    Ok(log_path.to_string_lossy().into_owned())
+}
+
+#[tauri::command]
 fn open_downloaded_file(app: AppHandle, path: String) -> Result<(), String> {
     ensure_path_exists(&path)?;
     app.opener()
@@ -400,6 +442,7 @@ pub fn run() {
             clear_finished_history,
             delete_downloaded_file,
             get_runtime_info,
+            append_diagnostic_log,
             open_downloaded_file,
             reveal_downloaded_file,
             #[cfg(desktop)]

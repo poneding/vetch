@@ -259,6 +259,8 @@
     "installing": "正在安装更新…",
     "relaunching": "正在重启 Vetch…",
     "installFailed": "更新安装失败，请重试。",
+    "failureReason": "原因：{{reason}}",
+    "diagnosticLog": "诊断日志：",
     "upToDate": "已是最新版本",
     "checkFailed": "检查更新失败"
   }

@@ -12,10 +12,28 @@ interface UpdateDialogProps {
   onDismiss: () => void
 }
 
+interface UpdateFailureInfo {
+  logPath?: string
+  message: string
+}
+
+const updateFailureInfo = (error: unknown): UpdateFailureInfo => {
+  const record = typeof error === 'object' && error !== null ? error : undefined
+  const messageValue = record && 'message' in record ? record.message : error
+  const logPathValue = record && 'logPath' in record ? record.logPath : undefined
+  const message =
+    typeof messageValue === 'string' && messageValue.trim()
+      ? messageValue.trim()
+      : 'Unknown updater error'
+  const logPath =
+    typeof logPathValue === 'string' && logPathValue.trim() ? logPathValue.trim() : undefined
+  return { logPath, message }
+}
+
 export function UpdateDialog({ info, onClose, onDismiss }: UpdateDialogProps) {
   const { t } = useTranslation()
   const [progress, setProgress] = useState<AppUpdateProgress | null>(null)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<UpdateFailureInfo | null>(null)
   const titleId = useId()
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const busyRef = useRef(false)
@@ -41,13 +59,13 @@ export function UpdateDialog({ info, onClose, onDismiss }: UpdateDialogProps) {
   }, [])
 
   const handleUpdate = async (): Promise<void> => {
-    setError('')
+    setError(null)
     setProgress({ downloadedBytes: 0, phase: 'downloading' })
     try {
       await installAppUpdate(setProgress)
-    } catch {
+    } catch (updateError) {
       setProgress(null)
-      setError(t('update.installFailed'))
+      setError(updateFailureInfo(updateError))
     }
   }
 
@@ -115,9 +133,16 @@ export function UpdateDialog({ info, onClose, onDismiss }: UpdateDialogProps) {
             </div>
           ) : null}
           {error ? (
-            <p className="update-error" role="alert">
-              {error}
-            </p>
+            <div className="update-error" role="alert">
+              <strong>{t('update.installFailed')}</strong>
+              <span>{t('update.failureReason', { reason: error.message })}</span>
+              {error.logPath ? (
+                <span>
+                  {t('update.diagnosticLog')}
+                  <code>{error.logPath}</code>
+                </span>
+              ) : null}
+            </div>
           ) : null}
         </div>
         <div className="modal-footer">
